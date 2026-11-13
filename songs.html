@@ -148,32 +148,43 @@
           }, 30);
         }
 
+        function clearPlaying(except) {
+          document.querySelectorAll(".song.is-playing").forEach(function (el) {
+            if (el !== except) el.classList.remove("is-playing");
+          });
+        }
+
         function play(song) {
           if (!soundOn) return;
-          if (current && current !== song) current.classList.remove("is-playing");
+          clearPlaying(song);
           current = song;
           var src = song.dataset.preview;
           if (audio.src !== src) audio.src = src;
           audio.currentTime = 0;
           audio.volume = 0;
           var p = audio.play();
-          if (p && p.catch) p.catch(function () {});
+          if (p && p.catch) p.catch(function () {
+            if (current === song) {
+              song.classList.remove("is-playing");
+              current = null;
+            }
+          });
           song.classList.add("is-playing");
           fadeTo(MAX_VOL, 400);
         }
 
         function stop(song) {
           if (song && song !== current) return;
-          var s = current;
-          fadeTo(0, 300, function () {
-            audio.pause();
-            if (s) s.classList.remove("is-playing");
-          });
+          // hide the equalizer right away; only the audio fades out
+          clearPlaying(null);
           current = null;
+          fadeTo(0, 300, function () {
+            if (!current) audio.pause();
+          });
         }
 
         audio.addEventListener("ended", function () {
-          if (current) current.classList.remove("is-playing");
+          clearPlaying(null);
           current = null;
         });
 
