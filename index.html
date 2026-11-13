@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alyssa Chen</title>
+    <meta
+      name="description"
+      content="Minimal personal website for Alyssa Chen."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar" aria-label="Main navigation">
+        <nav>
+          <a href="#" class="active">home</a>
+          <a href="https://github.com/alyssachen1" target="_blank" rel="noreferrer">github</a>
+          <a href="https://www.linkedin.com/in/alyssa-chen-12117221b/" target="_blank" rel="noreferrer">linkedin</a>
+          <a href="alyssaresume.pdf" target="_blank" rel="noreferrer">resume</a>
+        </nav>
+      </header>
+
+      <main class="bio scroll-stack" aria-label="About me">
+        <section class="panel intro-panel" id="intro" data-label="hi">
+          <p class="name reveal">hi, im aly.</p>
+          <img class="bouncer" src="kuromi-transparent.png" alt="" aria-hidden="true" hidden />
+          <a href="#facts" class="scroll-hint" aria-label="Scroll to next section">scroll ↓</a>
+        </section>
+
+        <section class="panel facts-panel" id="facts" data-label="about">
+          <ul class="facts reveal">
+            <li class="fact-current">
+              <div class="fact-row">
+                <span class="label">curr</span>
+                <span class="arrow">→</span>
+                <span class="city">chicago</span>
+              </div>
+              <div class="fact-detail">i am a <strong class="role">quantitative research analyst</strong> @ fidelity investments on their digital assets team. i work on implementing and researching new strategies to improve our investment products.</div>
+            </li>
+
+            <li class="fact-prev">
+              <div class="fact-row">
+                <span class="label">prev</span>
+                <span class="arrow">←</span>
+              </div>
+              <div class="fact-detail"><a class="role" href="blockchain-capital.html">investment intern</a> @ <a href="https://www.blockchaincapital.com" target="_blank" rel="noreferrer">blockchain capital</a>.</div>
+              <div class="fact-detail"><a class="role" href="fidelity-digital-asset-management.html">first research associate intern</a> @ <a href="https://www.fidelity.com/investing/crypto/crypto-account?imm_pid=196825374639&immid=100927_SEA&imm_eid=ep824123691987&utm_source=GOOGLE&utm_medium=paid_search&utm_account_id=7826759672&utm_campaign=CRY&utm_content=196825374639&utm_term=fidelity%20crypto&utm_campaign_id=100927&utm_id=18277819158&gclsrc=aw.ds&gad_source=1&gad_campaignid=18277819158&gbraid=0AAAAAD7OUhKswg26mCGGbnQbmiCloyyh3&gclid=Cj0KCQiA5NXXBhDEARIsABAJhdIGakVKHWjvjIK1M6wPdyKV5XcXIjZateB0Jw_L3Hn4cwipNAbb8LQaAgX4EALw_wcB" target="_blank" rel="noreferrer">fidelity digital asset management</a>.</div>
+              <div class="fact-detail"><a class="role" href="head-of-operations.html">head of operations</a> @ <a href="https://blockchain.studentorg.berkeley.edu" target="_blank" rel="noreferrer">blockchain at berkeley</a>.</div>
+              <div class="fact-detail"><strong class="role">arts journalist</strong> @ <a href="https://www.dailycal.org/search/?f=html&amp;t=article%2Ccollection%2Cvideo%2Cyoutube&amp;sd=desc&amp;l=25&amp;nsa=eedition&amp;q=Alyssa+chen" target="_blank" rel="noreferrer">the daily californian</a>.</div>
+              <div class="fact-detail"><strong class="role">ds</strong> @ uc berkeley (c/o 2026).</div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="panel subpages-panel" id="branches" data-label="branches">
+          <section class="subpages reveal" aria-label="Subpages">
+            <h2>sub-branches of my personality</h2>
+
+            <ul>
+              <li><a href="photography.html">→ i like photography.</a> </li>
+              <li><a href="writing.html">→ i like writing.</a> </li>
+              <li><a href="books.html">→ my favorite books.</a> </li>
+              <li><a href="songs.html">→ my favorite songs.</a></li>
+              <li><a href="art.html">→ i love impressionism &amp; monet water lilies.</a></li>
+            </ul>
+          </section>
+        </section>
+      </main>
+
+      <nav class="section-dots" aria-label="Sections"></nav>
+    </div>
+
+    <script>
+      (function () {
+        document.documentElement.classList.add("js");
+        var panels = Array.prototype.slice.call(document.querySelectorAll(".panel[id]"));
+        var dotsNav = document.querySelector(".section-dots");
+
+        var dots = panels.map(function (panel) {
+          var a = document.createElement("a");
+          a.href = "#" + panel.id;
+          a.className = "dot";
+          a.setAttribute("aria-label", panel.dataset.label || panel.id);
+          a.title = panel.dataset.label || panel.id;
+          dotsNav.appendChild(a);
+          return a;
+        });
+
+        if (!("IntersectionObserver" in window)) {
+          document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("is-visible"); });
+          return;
+        }
+
+        var revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        document.querySelectorAll(".reveal").forEach(function (el) { revealObserver.observe(el); });
+
+        var activeObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var i = panels.indexOf(entry.target);
+              dots.forEach(function (d, j) { d.classList.toggle("active", i === j); });
+            }
+          });
+        }, { rootMargin: "-45% 0px -45% 0px" });
+        panels.forEach(function (p) { activeObserver.observe(p); });
+      })();
+    </script>
+    <script>
+      (function () {
+        var img = document.querySelector(".bouncer");
+        var panel = document.querySelector(".intro-panel");
+        var name = document.querySelector(".name");
+        if (!img || !panel || !name) return;
+
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var SPEED = 130; // pixels per second — raise to bounce faster
+        var x = 0, y = 0, vx = SPEED, vy = SPEED * 0.8;
+        var running = false, visible = true, started = false, last = 0;
+
+        function bounds() {
+          var pr = panel.getBoundingClientRect();
+          var w = img.offsetWidth, h = img.offsetHeight;
+          return {
+            minX: -pr.left,
+            maxX: document.documentElement.clientWidth - pr.left - w,
+            minY: 80,
+            maxY: panel.offsetHeight - h - 10,
+            w: w, h: h
+          };
+        }
+
+        function textBox() {
+          var pr = panel.getBoundingClientRect();
+          var nr = name.getBoundingClientRect();
+          var pad = 16;
+          return {
+            left: nr.left - pr.left - pad,
+            right: nr.right - pr.left + pad,
+            top: nr.top - pr.top - pad,
+            bottom: nr.bottom - pr.top + pad
+          };
+        }
+
+        function overlaps(px, py, b, t) {
+          return px < t.right && px + b.w > t.left && py < t.bottom && py + b.h > t.top;
+        }
+
+        function place() {
+          img.style.transform = "translate(" + x + "px, " + y + "px)";
+        }
+
+        function start() {
+          var b = bounds();
+          // start in the top-left area, clear of the text
+          x = b.minX + (b.maxX - b.minX) * 0.15;
+          y = b.minY + 20;
+          var t = textBox();
+          if (overlaps(x, y, b, t)) y = Math.max(b.minY, t.top - b.h - 10);
+          place();
+          img.classList.add("is-ready");
+          started = true;
+        }
+
+        function step(now) {
+          if (!running) return;
+          var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+          last = now;
+          var b = bounds();
+          var t = textBox();
+          var nx = x + vx * dt, ny = y + vy * dt;
+
+          if (nx <= b.minX || nx >= b.maxX) { vx = -vx; nx = Math.min(Math.max(nx, b.minX), b.maxX); }
+          if (ny <= b.minY || ny >= b.maxY) { vy = -vy; ny = Math.min(Math.max(ny, b.minY), b.maxY); }
+
+          if (overlaps(nx, ny, b, t)) {
+            var hitX = overlaps(nx, y, b, t);
+            var hitY = overlaps(x, ny, b, t);
+            if (hitX) { vx = -vx; nx = x; }
+            if (hitY || !hitX) { vy = -vy; ny = y; }
+          }
+
+          x = nx; y = ny;
+          place();
+          requestAnimationFrame(step);
+        }
+
+        function run() {
+          if (running || reduceMotion || !visible || document.hidden) return;
+          running = true;
+          last = 0;
+          requestAnimationFrame(step);
+        }
+
+        function pause() { running = false; }
+
+        img.addEventListener("load", function () {
+          img.hidden = false;
+          requestAnimationFrame(function () {
+            start();
+            run();
+          });
+        });
+        img.addEventListener("error", function () { img.remove(); });
+        if (img.complete && img.naturalWidth) img.dispatchEvent(new Event("load"));
+
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) pause(); else run();
+        });
+
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver(function (entries) {
+            visible = entries[0].isIntersecting;
+            if (visible) run(); else pause();
+          }).observe(panel);
+        }
+
+        window.addEventListener("resize", function () {
+          if (!started) return;
+          var b = bounds();
+          x = Math.min(Math.max(x, b.minX), b.maxX);
+          y = Math.min(Math.max(y, b.minY), b.maxY);
+          place();
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impressionism &amp; Monet — Alyssa Chen</title>
+    <meta
+      name="description"
+      content="Impressionist art Alyssa Chen loves."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar" aria-label="Main navigation">
+        <nav>
+          <a href="index.html">home</a>
+          <a href="https://github.com/alyssachen1" target="_blank" rel="noreferrer">github</a>
+          <a href="https://www.linkedin.com/in/alyssa-chen-12117221b/" target="_blank" rel="noreferrer">linkedin</a>
+          <a href="alyssaresume.pdf" target="_blank" rel="noreferrer">resume</a>
+        </nav>
+      </header>
+
+      <main class="detail-page gallery-page">
+        <p class="detail-kicker">i love impressionism &amp; monet.</p>
+
+        <!--
+          how to add a painting:
+          1. drop the image into the art/web/ folder (resize big phone photos first,
+             or ask claude to make a web-sized copy)
+          2. copy the block below, paste it inside <div class="photo-grid">,
+             and change the file name and alt text
+             (to add a caption, put <figcaption>your caption</figcaption> after the img line)
+
+          <figure class="photo art-piece">
+            <img src="art/web/your-painting.jpg" alt="short description of the painting" loading="lazy" />
+          </figure>
+
+          to make one painting the large centerpiece, paste it above <div class="photo-grid">
+          and change class="photo" to class="photo photo-featured" (and remove loading="lazy").
+        -->
+
+        <figure class="photo photo-featured art-piece">
+          <img src="art/web/img_8641.jpg" alt="a long curved gallery wall of monet's water lilies panels" />
+        </figure>
+
+        <div class="photo-grid">
+          <figure class="photo art-piece">
+            <img src="art/web/img_1183.jpg" alt="monet's japanese footbridge over a pond, painted in warm pinks and greens" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7230.jpg" alt="a blue period painting of a seated woman wrapped in a blue shawl" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_1194.jpg" alt="monet water lilies with pink blossoms on a lavender pond" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7268.jpg" alt="portrait of a young woman in a white high-collared dress in a garden" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7956.jpg" alt="a wide monet water lilies canvas in soft greens and violets" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7381.jpg" alt="a rococo painting of figures floating among clouds in an ornate gold frame" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_1206.jpg" alt="a tall monet water lilies canvas with willow reflections" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7235.jpg" alt="a painting of a woman resting her chin on her hands, in a gallery room" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_8702.jpg" alt="monet's japanese footbridge in deep greens" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_7951.jpg" alt="a snowy village landscape with pink and white tones" loading="lazy" />
+          </figure>
+          <figure class="photo art-piece">
+            <img src="art/web/img_8698.jpg" alt="monet water lilies in dark blues and violets" loading="lazy" />
+          </figure>
+        </div>
+      </main>
+    </div>
+    <script>
+      (function () {
+        var pieces = Array.prototype.slice.call(document.querySelectorAll(".art-piece"));
+        if (!("IntersectionObserver" in window)) return;
+        document.documentElement.classList.add("art-animate");
+        pieces.forEach(function (el, i) {
+          el.style.setProperty("--reveal-delay", (i % 3) * 120 + "ms");
+        });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-in");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+        pieces.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+  </body>
+</html>
